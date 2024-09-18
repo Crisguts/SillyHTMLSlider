@@ -1,0 +1,208 @@
+/*This code creates a visually appealing and interactive image slider with smooth transitions and navigation controls.*/
+
+
+
+/*Position Relative vs Absolute
+
+https://kolosek.com/css-position-relative-vs-position-absolute/#:~:text=Relative%20%2D%20the%20element%20is%20positioned,related%20to%20the%20browser%20window.
+
+A relative positioned element can be moved to any direction by using the properties(offset properties) 
+such as left, right, top and bottom. And the values provided in those properties is calculated based 
+on the position where the element sits. And the surrounding elements of a relative positioned element 
+is aware of its existence in the document flow. So, they don’t consume the space of the relative positioned 
+element after it has been moved to a different position on the page.
+
+In absolute positioned element, it is the opposite. The surrounding elements consume the space of 
+the absolute positioned element cause they assume that the absolute positioned element do not 
+exist in the document flow. And an absolute positioned element can be moved in a same way you’d 
+move a relative positioned element using properties (offset properties) such as left, right, top and bottom, 
+but the values provided in those properties are calculated based upon its closest ancestor’s container 
+that has a relative position, meaning if the parent of the absolute positioned element has “position: 
+relative”, then giving the absolute positioned child a value of “top: 0px” will move the child towards 
+the top border of the relative positioned ancestor. If no ancestor has a relative position. 
+Then the absolute positioned element will make the body element its relative positioned ancestor. 
+And use the body element as its container.
+
+*/
+
+@import url(https://fonts.googleapis.com/css?family=Varela+Round);
+/*This imports the “Varela Round” font from Google Fonts.*/
+
+html,
+body {
+    background: rgb(58, 74, 85);
+}
+
+/*Sets the background color of the entire page to a dark gray.*/
+
+
+.slide img {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.slides {
+    margin: 0 auto;
+    top: 120px;
+    padding: 0;
+    display: block;
+    position: relative;
+    height: 600px;
+    width: 800px;
+}
+
+/*Defines the main container for the slides with a fixed width and height, centered on the page.*/
+/*The position: relative property in CSS is used to position an element relative to its normal position in the document flow. Here’s a more detailed explanation:
+
+Normal Flow: When an element is set to position: relative, it remains in the normal document flow, meaning it occupies space as it normally would.*/
+
+
+.slides * {
+    user-select: none;
+    /*The user-select: none property in CSS is used to prevent users from selecting text within an element. This can be useful in various scenarios, 
+	such as when you want to disable text selection on buttons, images, or other interactive elements to improve the user experience.*/
+    -ms-user-select: none;
+    /*The -ms-user-select: none; property is a vendor prefix for the user-select property, specifically for Internet Explorer and older versions of Microsoft Edge. 
+	It prevents users from selecting text within an element, ensuring compatibility with Microsoft’s browsers.*/
+    -moz-user-select: none;
+    /*The -moz-user-select: none; property is a vendor prefix for the user-select property, specifically for Mozilla Firefox. 
+	It prevents users from selecting text within an element, ensuring compatibility with Firefox browsers.*/
+    -khtml-user-select: none;
+    /* Prevents text selection in KHTML-based browsers.*/
+    -webkit-user-select: none;
+    /* Prevents text selection in WebKit-based browsers like Safari*/
+    -webkit-touch-callout: none;
+    /*The -webkit-touch-callout: none; CSS property is used to disable the default callout menu that appears when you tap and hold on an element in WebKit-based browsers, such as Safari on iOS devices. 
+	This can be useful for creating a more controlled user experience on touch devices.*/
+}
+
+/*Prevents text selection within the slides.*/
+
+
+
+.slide-container {
+    display: block;
+    /* Ensure each slide container is displayed as a block element */
+}
+
+.slides input {
+    display: none;
+}
+
+.slide {
+    top: 0;
+    opacity: 0;
+    width: 800px;
+    height: 600px;
+    display: block;
+    position: absolute;
+    transform: scale(0);
+    transition: all .6s ease-in-out;
+}
+
+.nav label {
+    width: 200px;
+    height: 100%;
+    display: none;
+    position: absolute;
+
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+
+    transition: opacity .2s;
+
+    color: rgb(255, 255, 255);
+    font-size: 150pt;
+    text-align: center;
+    line-height: 380px;
+    font-family: "Varela Round", sans-serif;
+    background-color: rgba(255, 255, 255, .3);
+    text-shadow: 0px 0px 15px rgb(119, 119, 119);
+}
+
+
+/*when hovering the slide but not the label,the label is 50% opacity*/
+.slide:hover+.nav label {
+    opacity: 0.5;
+}
+
+/*when hovering the label ,it becomes opacity 100%*/
+.nav label:hover {
+    opacity: 1;
+}
+
+.nav .next {
+    right: 0;
+}
+
+/*only to the checked image but to all slide and slide container*/
+input:checked+.slide-container .slide {
+    opacity: 1;
+    transform: scale(1);
+    transform: opacity 1s ease-in-out;
+}
+
+input:checked+.slide-container .nav label {
+    display: block;
+}
+
+/* when an input is checked, the corresponding slide becomes visible and scales up,and
+the navigations labels are displayed */
+
+.nav-dots {
+    width: 100%;
+    bottom: 10px;
+    height: 12px;
+    display: block;
+    position: absolute;
+    text-align: center;
+}
+
+.nav-dots .nav-dot {
+    top: -5px;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    position: relative;
+    border-radius: 100%;
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.6);
+}
+
+.nav-dots .nav-dot:hover {
+    cursor: pointer;
+    background-color: rgb(255, 0, 0);
+}
+
+/*if on the image,it will be checked*/
+input#img-1:checked~.nav-dots label#img-dot-1 {
+    background-color: rgb(0, 0, 0);
+}
+
+input#img-2:checked~.nav-dots label#img-dot-2 {
+    background-color: rgb(0, 0, 0);
+}
+
+input#img-3:checked~.nav-dots label#img-dot-3 {
+    background-color: rgb(0, 0, 0);
+}
+
+input#img-4:checked~.nav-dots label#img-dot-4 {
+    background-color: rgb(0, 0, 0);
+}
+
+input#img-5:checked~.nav-dots label#img-dot-5 {
+    background-color: rgb(0, 0, 0);
+}
+
+input#img-6:checked~.nav-dots label#img-dot-6 {
+    background-color: rgb(0, 0, 0);
+}
+
+/*
+Understand '+', '>' and '~' symbols in CSS Selector
+https://techbrij.com/css-selector-adjacent-child-sibling
+ */
